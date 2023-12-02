@@ -1,0 +1,263 @@
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+public class sample {
+	private JFrame frame;
+	private JFrame eframe;
+	private JFrame aframe;
+	private JLabel Employeenolbl;
+	private JLabel Employeenamelbl;
+	private JLabel Employeesalarylbl;
+	private JLabel Employeenumberlbl;
+	private JLabel Employeedoblbl;
+	private JTextField Employeenofld;
+	private JTextField Employeenamefld;
+	private JTextField Employeesalaryfld;
+	private JTextField Employeenumberfld;
+	private JTextField Employeedobfld;
+	private JButton addbtn;
+	private JButton viewbtn;
+	private JButton editbtn;
+	private JButton nobtn;
+	private JButton back;
+	private JButton deletebtn;
+	private JComboBox selname;
+	private JTable tble;
+int f=1;
+public static void main(String args[])
+{ EventQueue.invokeLater(new Runnable()
+{
+	public void run() {
+		try {
+			sample window=new sample();
+			window.frame.setVisible(true); }
+		catch(Exception e)    {
+			e.printStackTrace();}  } });  
+}
+public sample()
+{
+	initialize();
+}
+private void initialize()
+{
+	frame=new JFrame();
+	frame.setBounds(100,100,450,300);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.getContentPane().setLayout(null);
+	eframe=new JFrame();
+	eframe.setBounds(100,100,450,300);
+	eframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	eframe.getContentPane().setLayout(null);
+	aframe=new JFrame();
+	aframe.setBounds(100,100,450,300);
+	aframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	aframe.getContentPane().setLayout(null);
+	JLabel Employeenolbl=new JLabel("E NO:");
+	Employeenolbl.setBounds(122,50,50,23);
+	frame.getContentPane().add(Employeenolbl);
+	JLabel Employeenamelbl=new JLabel("E NAME:");
+	Employeenamelbl.setBounds(112,80,50,23);
+	frame.getContentPane().add(Employeenamelbl);
+	JLabel Employeesalarylbl=new JLabel("SALARY");
+	Employeesalarylbl.setBounds(112,110,50,23);
+	frame.getContentPane().add(Employeesalarylbl);
+	JLabel Employeenumberlbl=new JLabel("CONTACT NO:");
+	Employeenumberlbl.setBounds(80,140,100,23);
+	frame.getContentPane().add(Employeenumberlbl);
+	JLabel Employeedoblbl=new JLabel("DOB");
+	Employeedoblbl.setBounds(112,170,50,23);
+	frame.getContentPane().add(Employeedoblbl);
+	JTextField Employeenofld=new JTextField();
+	Employeenofld.setBounds(170,50,100,23);
+	frame.getContentPane().add(Employeenofld);
+	Employeenofld.setColumns(80);
+	JTextField Employeenamefld=new JTextField();
+	Employeenamefld.setBounds(170,80,100,23);
+	frame.getContentPane().add(Employeenamefld);
+	Employeenamefld.setColumns(80);
+	JTextField Employeesalaryfld=new JTextField();
+	Employeesalaryfld.setBounds(170,110,100,23);
+	frame.getContentPane().add(Employeesalaryfld);
+	Employeesalaryfld.setColumns(80); 
+	JTextField Employeenumberfld=new JTextField();
+	Employeenumberfld.setBounds(170,140,100,23);
+	frame.getContentPane().add(Employeenumberfld);
+	Employeenumberfld.setColumns(80);;
+	JTextField Employeedobfld=new JTextField();
+	Employeedobfld.setBounds(170,170,100,23);
+	frame.getContentPane().add(Employeedobfld);
+	Employeedobfld.setColumns(80);
+	 selname=new JComboBox();
+	    selname.setBounds(100,50,90,30);
+	    eframe.getContentPane().add(selname);
+	    JButton editbtn=new JButton("Edit");
+	    editbtn.setBounds(100,100,70,30);
+	    eframe.getContentPane().add(editbtn);
+	    JButton deletebtn=new JButton("Delete");
+	    deletebtn.setBounds(190,100,90,30);
+	    eframe.getContentPane().add(deletebtn);
+	    JButton addbtn=new JButton("Save");
+	    addbtn.setBounds(100,200,70,30);
+	    JButton back=new JButton("back");
+	    back.setBounds(300,100,90,30);
+	    eframe.getContentPane().add(back);
+	    frame.getContentPane().add(addbtn);
+	    addbtn.addActionListener
+    (new ActionListener() {
+    	public void actionPerformed(ActionEvent ae)
+    	{ try {
+    		Connection conn =
+    				DriverManager.getConnection("jdbc:mysql://localhost:3306/farhan3","root","");
+    		Statement stmt=conn.createStatement();
+    		if(f==2) {
+    			String dltqry="DELETE FROM nstudentdata WHERE cs_name='"+selname.getSelectedItem()+"'";
+    		stmt.executeUpdate(dltqry);  }  
+    		String qry = "INSERT INTO nstudentdata(`cs_no`, `cs_name`, `cs_salary`, `cs_contact`, `cs_dob`) VALUES('"+Employeenofld.getText()+"','"+Employeenamefld.getText()+"','"+Employeesalaryfld.getText()+"','"+Employeenumberfld.getText()+"','"+Employeedobfld.getText()+"')";
+    		
+    stmt.executeUpdate(qry);
+    				JOptionPane.showMessageDialog(frame, "Added Sucessfully");
+    				conn.close();
+    				f=1;
+    	}
+    	catch(Exception exc) {
+    		JOptionPane.showMessageDialog(frame,exc);
+    	}  }  }  );
+	    JButton viewbtn=new JButton("view");
+    	viewbtn.setBounds(200,200,70,30);
+    	frame.getContentPane().add(viewbtn);
+    	viewbtn.addActionListener
+    	(  new ActionListener()
+    			{
+    		public void actionPerformed(ActionEvent ae)
+    		{
+    			try 
+    			{ f=2;
+    			selname.removeAllItems();
+    			frame.setVisible(false);
+    			eframe.setVisible(true);
+    			Connection
+    			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/farhan3","root","");
+    			String viewqry="Select * from nstudentdata";
+    		Statement stmt=conn.createStatement();
+    		ResultSet viewdata=stmt.executeQuery(viewqry);
+    		while(viewdata.next()) {
+    			selname.addItem(viewdata.getString("cs_name"));
+    		}
+    			}
+    			catch(Exception exc)
+    			{ JOptionPane.showMessageDialog(frame,exc);
+    			}   }   }   );
+    	editbtn.addActionListener   ( 
+    			new ActionListener()  {
+    				public void actionPerformed(ActionEvent ae)  {
+    			try  {
+    				eframe.setVisible(false);
+    				frame.setVisible(true);
+    				Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/farhan3","root","");
+    				String viewqry="SELECT * FROM nstudentdata where cs_name='"+selname.getSelectedItem()+"'";
+    				JOptionPane.showMessageDialog(frame,viewqry);
+    				Statement stmt=conn.createStatement();
+    				ResultSet viewdata=stmt.executeQuery(viewqry);
+    				while(viewdata.next())
+    				{
+    					Employeenofld.setText(viewdata.getString("cs_no"));
+    					Employeenamefld.setText(viewdata.getString("cs_name"));
+    					Employeesalaryfld.setText(viewdata.getString("cs_salary"));
+    					Employeenumberfld.setText(viewdata.getString("cs_contact"));
+    					Employeedobfld.setText(viewdata.getString("cs_dob"));}}
+    				catch(Exception exc) {
+    					JOptionPane.showMessageDialog(frame,exc);
+    				}  }  } );
+		deletebtn.addActionListener
+		(   new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				try  {
+					frame.setVisible(false);
+					eframe.setVisible(true);
+					Connection
+					conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/farhan3","root","");
+					Statement stmt=conn.createStatement();
+		String dltqry="DELETE FROM nstudentdata WHERE cs_name='"+selname.getSelectedItem()+"'";
+		stmt.execute(dltqry);
+		JOptionPane.showMessageDialog(frame,"Deleted Sucessfully...");
+		conn.close();         }
+		catch(Exception exc)
+		{
+			JOptionPane.showMessageDialog(frame,exc);
+		}  }   }  ); 
+		JButton nobtn=new JButton("Details");
+	    nobtn.setBounds(300,200,90,30);
+	    eframe.getContentPane().add(nobtn);
+		nobtn.addActionListener
+    	(  new ActionListener()
+    			{
+    		public void actionPerformed(ActionEvent ae)
+    		{
+    			try 
+    			{ f=2;
+    			frame.setVisible(false);
+    			aframe.setVisible(true);
+    			Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/farhan3","root","");
+    			String viewqry="Select * from nstudentdata";
+    		Statement stm=conn.createStatement();
+    		ResultSet viewdat=stm.executeQuery(viewqry);
+  
+    		
+       		}
+    			catch(Exception exc)
+    			{ JOptionPane.showMessageDialog(frame,exc);
+    			}   }   }   );
+		
+	    back.addActionListener   ( 
+    			new ActionListener()  {
+    				public void actionPerformed(ActionEvent ae)  {
+    			try  {
+    				eframe.setVisible(false);
+    				frame.setVisible(true);
+    				Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/farhan3","root","");
+    				String viewqry="SELECT * FROM nstudentdata";
+    				Statement stmt=conn.createStatement();
+    				ResultSet viewdata=stmt.executeQuery(viewqry);
+    				while(viewdata.next())
+    				{
+    					Employeenofld.setText((""));
+    					Employeenamefld.setText((""));
+    					Employeesalaryfld.setText((""));
+    					Employeenumberfld.setText((""));
+    					Employeedobfld.setText((""));}}
+    				catch(Exception exc) {
+    					JOptionPane.showMessageDialog(frame,exc);
+    				}  }  } );
+		
+		
+		}}
+
+  
+ 
+
+ 
+ 
+
+
+
+
+ 
+ 
+
+
+
+ 
+ 
